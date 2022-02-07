@@ -52,7 +52,7 @@ def guest_list(a_list):
     country_dict ={}
     total_dates = []
     attendees = []
-    country_dict["Location"] = (a_list[0]['country'])
+    country_dict["name"] = (a_list[0]['country'])
     for i in range(len(a_list)):                                    # creates list of all given US dates
         total_dates.append(a_list[i]['availableDates'])
                                       
@@ -80,9 +80,9 @@ def guest_list(a_list):
     for i in range(len(a_list)):
         if set(final_dates).issubset(set(a_list[i]['availableDates'])):    # checks if final dates are in each partners's avail dates
             attendees.append(a_list[i]['email'])                            # if True, returns partner's e-mail                         
-    country_dict["Start Date"] = (final_dates[0])
-    country_dict["Total Attendees"] = len(attendees)                       # adds additional information for each country's meeting
-    country_dict['Attendees'] = attendees
+    country_dict["startDate"] = (final_dates[0])
+    country_dict["attendeeCount"] = len(attendees)                       # adds additional information for each country's meeting
+    country_dict['attendees'] = attendees
     return country_dict
 
 def complete_list():                                                       # function adds all country lists to combined list
@@ -93,5 +93,6 @@ def complete_list():                                                       # fun
 complete_list()
 
 final_invitations['data'] = invitations                                    # converts all final info to value for key of 'data'
-
-print(final_invitations)
+ans = requests.post(url = 'https://ct-mock-tech-assessment.herokuapp.com/', json = {'data':invitations})
+print(invitations)
+print(ans)
